@@ -1,0 +1,2 @@
+"""Shared component contracts."""
+

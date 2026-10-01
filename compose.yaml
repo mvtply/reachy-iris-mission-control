@@ -1,0 +1,16 @@
+services:
+  redis-enterprise:
+    image: redislabs/redis:8.0.10-81
+    container_name: reachy-iris-enterprise
+    cap_add: [SYS_RESOURCE]
+    ports:
+      - "127.0.0.1:18443:8443"
+      - "127.0.0.1:19443:9443"
+      - "127.0.0.1:12000:12000"
+    volumes:
+      - reachy-iris-enterprise-data:/var/opt/redislabs
+    restart: unless-stopped
+
+volumes:
+  reachy-iris-enterprise-data:
+

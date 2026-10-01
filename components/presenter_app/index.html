@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reachy Mini · Redis Iris Mission Control</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/app.css?v=2">
+</head>
+<body>
+  <header class="topbar">
+    <div><div class="eyebrow">REDIS IRIS · LIVE DEMO</div><h1>Reachy Mini Mission Control</h1></div>
+    <div class="top-actions"><span id="event-name" class="pill">Loading event…</span><button id="refresh" class="secondary">Refresh</button></div>
+  </header>
+  <main>
+    <section class="hero">
+      <div><div class="eyebrow">THE STORY</div><h2>A little robot. A memory. A mission that changes.</h2><p>Invite a participant, route their question, retrieve evidence, then hand the conversation to someone new.</p></div>
+      <div class="hero-status"><span id="ready-dot" class="dot"></span><strong id="ready-text">Checking Redis Enterprise…</strong><small id="robot-text"></small></div>
+    </section>
+
+    <section class="stage-shell">
+      <div class="section-heading"><h2>Run the story</h2><span>25 minutes · small group</span></div>
+      <div id="stages" class="stages"></div>
+      <div class="stage-detail"><div><div id="stage-number" class="eyebrow"></div><h3 id="stage-title"></h3><p id="stage-script"></p></div><div id="stage-components" class="stage-components"></div></div>
+    </section>
+
+    <div class="grid">
+      <section class="card">
+        <div class="section-heading"><h2>Meet a volunteer</h2><span>Opt-in memory</span></div>
+        <p class="muted">Before the talk, ask for a name and one safe fact. Read it back for confirmation; Reachy speaks when its speech service is connected.</p>
+        <label>Name<input id="name" maxlength="80" placeholder="e.g. Maya"></label><button id="listen-name" class="secondary">Hear name</button>
+        <label>One fact<input id="fact" maxlength="300" placeholder="e.g. I love astronomy"></label><button id="listen-fact" class="secondary">Hear fact</button>
+        <label class="check"><input id="consent" type="checkbox"> I agree that Reachy may remember this for this event only.</label>
+        <div class="button-row"><button id="readback" class="secondary">Read back for confirmation</button><button id="register" class="primary" disabled>Confirm and remember</button></div>
+        <div id="registration-result" class="feedback" aria-live="polite"></div>
+      </section>
+
+      <section class="card attention-card">
+        <div class="section-heading"><h2>Find the next person</h2><span id="attention-mode">Camera tracking</span></div>
+        <div class="attention-status"><span id="attention-state" class="big-state">Scanning</span><span id="active-track" class="pill">No active target</span></div>
+        <p class="muted">Reachy faces the selected person, gives one antenna wave, and holds focus until their answer is complete.</p>
+        <div id="tracks" class="track-list"></div>
+        <div class="button-row"><button id="mock-three" class="secondary">Simulate three people</button><button id="skip" class="secondary">Skip</button><button id="next" class="primary">Select next</button></div>
+        <small class="muted">Mock controls are for rehearsal. Camera images and temporary track IDs are not saved.</small>
+      </section>
+
+      <section class="card question-card">
+        <div class="section-heading"><h2>Ask Reachy</h2><span>Voice or presenter text</span></div>
+        <label>Opt-in participant<select id="participant"><option value="">Public question / no identified participant</option></select></label>
+        <label class="check"><input id="identified" type="checkbox"> This person said their name during this conversation.</label>
+        <label>Question<textarea id="question" rows="3" placeholder="What is the charging station status, and what rule applies?"></textarea></label>
+        <div id="prompt-chips" class="prompt-chips"></div>
+        <div class="button-row"><button id="listen" class="secondary">Listen on Reachy</button><button id="ask" class="primary">Ask and complete turn</button></div>
+        <p id="speech-note" class="muted tiny">Hosted speech endpoints pending: use presenter text for rehearsal.</p>
+      </section>
+
+      <section class="card board-card">
+        <div class="section-heading"><h2>Mission board</h2><span class="badge simulated">SIMULATED RDI</span></div>
+        <div class="station"><div><span class="eyebrow">CHARGING STATION</span><strong id="station-status">…</strong></div><span class="station-icon">↗</span></div>
+        <p class="muted">Change the status. This control writes directly to Redis Enterprise; no PostgreSQL or CDC is involved.</p>
+        <div class="button-row"><button id="station-open" class="secondary">Set OPEN</button><button id="station-closed" class="secondary">Set CLOSED</button></div>
+      </section>
+    </div>
+
+    <section class="card answer-card"><div class="section-heading"><h2>What Reachy said</h2><span id="route-badge" class="pill">Waiting for a question</span></div><p id="answer" class="answer-text">The answer, evidence, and component trail will appear here.</p><div class="answer-columns"><div><h3>Evidence</h3><div id="evidence" class="evidence-list"></div></div><div><h3>Component trail</h3><div id="trace" class="trace-list"></div></div></div></section>
+
+    <section class="card systems-card"><div class="section-heading"><h2>What is running</h2><span>Honest component labels</span></div><div id="systems" class="systems"></div></section>
+
+    <footer><span>All participant facts are scoped to this event and expire automatically after 24 hours.</span><button id="end-event" class="danger">End event and delete its data</button></footer>
+  </main>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="/app.js"></script>
+</body>
+</html>
